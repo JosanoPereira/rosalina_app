@@ -1,21 +1,28 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html>
+<html lang="en">
+<!-- [Head] start -->
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>--}}
+    <title>Login | Berry Dashboard Template</title>
+    <!-- [Meta] -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+        name="description"
+        content="Berry is trending dashboard template made using Bootstrap 5 design framework. Berry is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
+    />
+    <meta
+        name="keywords"
+        content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
+    />
+    <meta name="author" content="codedthemes" />
 
     <!-- [Favicon] icon -->
     <link rel="icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon"/>
     <!-- [Google Font] Family -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-          id="main-font-link"/>
+          id="main-font-link" />
+    <!-- [phosphor Icons] https://phosphoricons.com/ -->
     <!-- [phosphor Icons] https://phosphoricons.com/ -->
     <link rel="stylesheet" href="{{asset('assets/fonts/phosphor/duotone/style.css')}}"/>
     <!-- [Tabler Icons] https://tablericons.com -->
@@ -30,25 +37,25 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/style-preset.css')}}"/>
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('css')
 </head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
 <body>
+<!-- [ Pre-loader ] start -->
 <div class="loader-bg">
     <div class="loader-track">
         <div class="loader-fill"></div>
     </div>
 </div>
-@include('layouts.sidebars.sidebar_nav')
-@include('layouts.headers.headers_nav')
-<div class="pc-container">
-    <div class="pc-content">
+<!-- [ Pre-loader ] End -->
+
+<div class="auth-main">
+    <div class="auth-wrapper v3">
         @yield('content')
     </div>
 </div>
-@include('layouts.footers.footers_nav')
-
+<!-- [ Main Content ] end -->
 <!-- Required Js -->
 <script src="{{asset('assets/js/plugins/popper.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/simplebar.min.js')}}"></script>
@@ -85,13 +92,6 @@
 
 @stack('js')
 
-<!-- [Page Specific JS] start -->
-<!-- Apex Chart -->
-<script src="{{asset('assets/js/plugins/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/js/pages/dashboard-default.js')}}"></script>
-<!-- [Page Specific JS] end -->
 </body>
+<!-- [Body] end -->
 </html>
-
-
-
