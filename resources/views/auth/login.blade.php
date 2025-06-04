@@ -6,7 +6,7 @@
         <div class="card my-5">
             <div class="card-body">
                 <a href="#" class="d-flex justify-content-center">
-{{--                    <img src="{{asset('assets/images/logo-dark.svg')}}" alt="image" class="img-fluid brand-logo"/>--}}
+                    {{--                    <img src="{{asset('assets/images/logo-dark.svg')}}" alt="image" class="img-fluid brand-logo"/>--}}
                 </a>
                 <div class="row">
                     <div class="d-flex justify-content-center">
@@ -59,7 +59,9 @@
                 </form>
 
                 <hr/>
-                <h5 class="d-flex justify-content-center">Não tem uma conta?</h5>
+                <h5 class="d-flex justify-content-center">
+                    <a href="{{ route('register') }}" class="text-primary">Não tem uma conta?</a>
+                </h5>
             </div>
         </div>
     </div>

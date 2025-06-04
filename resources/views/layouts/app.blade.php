@@ -7,26 +7,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>--}}
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
-    <!-- [Favicon] icon -->
+    <link href="{{asset('DataTables/datatables.min.css')}}" rel="stylesheet">
+
     <link rel="icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon"/>
-    <!-- [Google Font] Family -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
           id="main-font-link"/>
-    <!-- [phosphor Icons] https://phosphoricons.com/ -->
     <link rel="stylesheet" href="{{asset('assets/fonts/phosphor/duotone/style.css')}}"/>
-    <!-- [Tabler Icons] https://tablericons.com -->
     <link rel="stylesheet" href="{{asset('assets/fonts/tabler-icons.min.css')}}"/>
-    <!-- [Feather Icons] https://feathericons.com -->
     <link rel="stylesheet" href="{{asset('assets/fonts/feather.css')}}"/>
-    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
     <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome.css')}}"/>
-    <!-- [Material Icons] https://fonts.google.com/icons -->
     <link rel="stylesheet" href="{{asset('assets/fonts/material.css')}}"/>
-    <!-- [Template CSS Files] -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/style-preset.css')}}"/>
 
@@ -48,6 +41,8 @@
     </div>
 </div>
 @include('layouts.footers.footers_nav')
+
+<script src="{{asset('DataTables/datatables.min.js')}}"></script>
 
 <!-- Required Js -->
 <script src="{{asset('assets/js/plugins/popper.min.js')}}"></script>
@@ -83,13 +78,10 @@
     preset_change('preset-1');
 </script>
 
-@stack('js')
-
-<!-- [Page Specific JS] start -->
-<!-- Apex Chart -->
 <script src="{{asset('assets/js/plugins/apexcharts.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/dashboard-default.js')}}"></script>
-<!-- [Page Specific JS] end -->
+@stack('js')
+
 </body>
 </html>
 

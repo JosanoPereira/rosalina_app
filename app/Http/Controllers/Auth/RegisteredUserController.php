@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Genero;
+use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -19,7 +21,10 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $generos = Genero::all();
+        return view('auth.register', [
+            'generos' => $generos,
+        ]);
     }
 
     /**
@@ -30,21 +35,48 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'nome' => ['required', 'string', 'max:255'],
+            'apelido' => ['required', 'string', 'max:255'],
+            'generos_id' => ['required', 'numeric', 'exists:' . Genero::class . ',id'],
+            'bi' => ['nullable', 'string', 'max:14'],
+            'telefone' => ['nullable', 'string', 'max:15'],
+            'nascimento' => ['required', 'date'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        try {
+            DB::beginTransaction();
+            $resNome = explode(' ', $request->nome);
+            $resApelido = explode(' ', $request->apelido);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
 
-        event(new Registered($user));
+            $request->merge([
+                'name' => strtolower(remover_acentos($resNome[0]) . '.' . remover_acentos($resApelido[count($resApelido) - 1])),
+            ]);
 
-        Auth::login($user);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        return redirect(route('dashboard', absolute: false));
+            $pessoa = Pessoa::create([
+                'nome' => $request->nome,
+                'apelido' => $request->apelido,
+                'bi' => $request->bi?? null,
+                'telefone' => $request->telefone?? null,
+                'nascimento' => $request->nascimento,
+                'generos_id' => $request->generos_id,
+            ]);
+
+            $user->assignRole('Passageiro');
+
+//            event(new Registered($user));
+            DB::commit();
+            return redirect(route('login', absolute: false));
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Erro ao processar o registo. Por favor, tente novamente.');
+        }
     }
 }
