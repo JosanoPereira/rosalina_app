@@ -1,7 +1,7 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header">
-            <a href="../dashboard/index.html" class="b-brand text-primary">
+            <a href="{{route('dashboard')}}" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
                 <img src="assets/images/logo-dark.svg" alt="" class="logo logo-lg" />
             </a>
@@ -12,20 +12,20 @@
                     <label>Dashboard</label>
                     <i class="ti ti-dashboard"></i>
                 </li>
-                <li class="pc-item">
-                    <a href="../dashboard/index.html" class="pc-link"
-                    ><span class="pc-micon"><i class="ti ti-dashboard"></i></span><span class="pc-mtext">Default</span></a
+                <li class="pc-item {{request()->is('/')? 'active' : null}}">
+                    <a href="{{route('dashboard')}}" class="pc-link"
+                    ><span class="pc-micon"><i class="ti ti-dashboard"></i></span><span class="pc-mtext">Dashboard</span></a
                     >
                 </li>
 
                 <li class="pc-item pc-caption">
-                    <label>Elements</label>
+                    <label>Trajectos</label>
                     <i class="ti ti-apps"></i>
                 </li>
-                <li class="pc-item">
-                    <a href="../elements/bc_typography.html" class="pc-link">
+                <li class="pc-item {{request()->is('rotas')? 'active' : null}}">
+                    <a href="{{route('rotas.index')}}" class="pc-link">
                         <span class="pc-micon"><i class="ti ti-typography"></i></span>
-                        <span class="pc-mtext">Typography</span>
+                        <span class="pc-mtext">Rotas</span>
                     </a>
                 </li>
                 <li class="pc-item">

@@ -11,7 +11,11 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+
     Route::get('/', function () {
+        if (auth()->check() && auth()->user()->hasRole('Passageiro')) {
+            return view('dashboards.passageiros.index');
+        }
         return view('dashboards.index');
     })->name('dashboard');
 
