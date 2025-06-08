@@ -12,7 +12,10 @@ class AutocarroController extends Controller
      */
     public function index()
     {
-        //
+        $autocarros = Autocarro::all();
+        return view('autocarros.index', [
+            'autocarros' => $autocarros,
+        ]);
     }
 
     /**
@@ -20,7 +23,6 @@ class AutocarroController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -28,7 +30,13 @@ class AutocarroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $dado = Autocarro::updateOrCreate(
+            ['id' => $request->id],
+            $request->except(['id',])
+        );
+
+        return redirect()->route('autocarros.index')->with('success', 'Autocarro criado com sucesso!');
     }
 
     /**
@@ -36,7 +44,7 @@ class AutocarroController extends Controller
      */
     public function show(Autocarro $autocarro)
     {
-        //
+        return response()->json($autocarro);
     }
 
     /**

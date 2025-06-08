@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RotaController;
 use App\Http\Controllers\BilheteController;
+use App\Http\Controllers\AutocarroController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +26,7 @@ Route::middleware('auth')->group(function () {
     // Others routes
     Route::resource('rotas', RotaController::class);
     Route::resource('bilhetes', BilheteController::class);
+    Route::resource('autocarros', AutocarroController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

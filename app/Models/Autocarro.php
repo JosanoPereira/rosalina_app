@@ -23,11 +23,6 @@ class Autocarro extends Model
         'estado',
     ];
 
-    protected $casts = [
-        'data_fabricacao' => 'datetime',
-        'data_registo' => 'datetime',
-    ];
-
     public function motorista()
     {
         return $this->belongsTo(Motorista::class);

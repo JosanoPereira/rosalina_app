@@ -40,6 +40,12 @@
                         <span class="pc-mtext">Rotas</span>
                     </a>
                 </li>
+                <li class="pc-item {{request()->is('autocarros*')? 'active' : null}}">
+                    <a href="{{route('autocarros.index')}}" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-typography"></i></span>
+                        <span class="pc-mtext">Autocarros</span>
+                    </a>
+                </li>
 
 
                 <li class="pc-item pc-caption">
