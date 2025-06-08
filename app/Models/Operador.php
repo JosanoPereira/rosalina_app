@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Passageiro extends Model
+class Operador extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,7 @@ class Passageiro extends Model
         'users_id',
         'pessoas_id',
         'nif',
+        'numero_registo',
     ];
 
     public function pessoa()

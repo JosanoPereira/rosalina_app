@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bihete;
+use App\Models\Motorista;
 use Illuminate\Http\Request;
 
-class BiheteController extends Controller
+class MotoristaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BiheteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bihete $bihete)
+    public function show(Motorista $motorista)
     {
         //
     }
@@ -42,7 +42,7 @@ class BiheteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Bihete $bihete)
+    public function edit(Motorista $motorista)
     {
         //
     }
@@ -50,7 +50,7 @@ class BiheteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bihete $bihete)
+    public function update(Request $request, Motorista $motorista)
     {
         //
     }
@@ -58,7 +58,7 @@ class BiheteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bihete $bihete)
+    public function destroy(Motorista $motorista)
     {
         //
     }

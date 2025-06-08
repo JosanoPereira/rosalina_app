@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Rosalina Express') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
     <link href="{{asset('DataTables/datatables.min.css')}}" rel="stylesheet">
 
-    <link rel="icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon"/>
+    <link rel="icon" href="{{asset('assets/images/logo-rosalina.png')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
           id="main-font-link"/>
     <link rel="stylesheet" href="{{asset('assets/fonts/phosphor/duotone/style.css')}}"/>

@@ -2,7 +2,7 @@
 <html lang="en">
 <!-- [Head] start -->
 <head>
-    <title>Login | Berry Dashboard Template</title>
+    <title>Rosalina Express</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -16,7 +16,7 @@
     />
     <meta name="author" content="codedthemes"/>
 
-    <link rel="icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon"/>
+    <link rel="icon" href="{{asset('assets/images/logo-rosalina.png')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
           id="main-font-link"/>
     <link rel="stylesheet" href="{{asset('assets/fonts/phosphor/duotone/style.css')}}"/>

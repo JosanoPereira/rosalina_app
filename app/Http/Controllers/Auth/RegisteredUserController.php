@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Genero;
+use App\Models\Passageiro;
 use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -69,9 +70,14 @@ class RegisteredUserController extends Controller
                 'generos_id' => $request->generos_id,
             ]);
 
+            $passageiro = Passageiro::create([
+                'users_id' => $user->id,
+                'pessoas_id' => $pessoa->id,
+                'nif' => $request->bi ?? null,
+            ]);
+
             $user->assignRole('Passageiro');
 
-//            event(new Registered($user));
             DB::commit();
             return redirect(route('login', absolute: false));
         } catch (\Throwable $e) {

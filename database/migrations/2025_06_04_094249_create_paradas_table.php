@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('paradas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rotas_id')
-                ->constrained('rotas')
-                ->onDelete('cascade');
             $table->string('nome');
-
+            $table->integer('ordem')->nullable();
             $table->timestamps();
         });
     }

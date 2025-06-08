@@ -2,24 +2,29 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RotaController;
+use App\Http\Controllers\BilheteController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard2');
-
 Route::middleware('auth')->group(function () {
-
-
     Route::get('/', function () {
         if (auth()->check() && auth()->user()->hasRole('Passageiro')) {
-            return view('dashboards.passageiros.index');
+            return redirect()->route('dashboard.passageiros');
         }
-        return view('dashboards.index');
+        return redirect()->route('dashboard.index');
     })->name('dashboard');
 
+    // Dashboard routes
+    Route::get('/dashboard', function () {
+        return view('dashboards.index');
+    })->name('dashboard.index');
+    Route::get('/dashboard/passageiros', function () {
+        return view('dashboards.passageiros.index');
+    })->name('dashboard.passageiros');
+
+    // Others routes
     Route::resource('rotas', RotaController::class);
+    Route::resource('bilhetes', BilheteController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

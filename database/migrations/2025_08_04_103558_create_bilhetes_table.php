@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bihetes', function (Blueprint $table) {
+        Schema::create('bilhetes', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero_bihete')->unique();
+            $table->foreignId('viagens_id')->constrained('viagens')->onDelete('cascade');
+            $table->foreignId('passageiros_id')->constrained('passageiros')->onDelete('cascade');
+            $table->decimal('preco', 50, 2);
+            $table->string('classe')->default('Económica'); // Classe do bilhete, por exemplo, Económica ou Executiva
+            $table->integer('numero_bilhete')->unique();
             $table->dateTime('data_emissao');
             $table->dateTime('data_validade');
-            $table->foreignId('passageiros_id')
-                ->constrained('passageiros')
-                ->onDelete('cascade');
-            $table->foreignId('viagens_id')
-                ->constrained('viagens')
-                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bihetes');
+        Schema::dropIfExists('bilhetes');
     }
 };

@@ -6,7 +6,7 @@
         <div class="card my-5">
             <div class="card-body">
                 <a href="#" class="d-flex justify-content-center">
-                    {{--                    <img src="{{asset('assets/images/logo-dark.svg')}}" alt="image" class="img-fluid brand-logo"/>--}}
+                    <img src="{{asset('assets/images/logo-rosalina.png')}}" alt="image" class="img-fluid brand-logo"/>
                 </a>
                 <div class="row">
                     <div class="d-flex justify-content-center">

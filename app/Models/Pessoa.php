@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pessoa extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'nome',
         'apelido',
@@ -14,4 +17,9 @@ class Pessoa extends Model
         'nascimento',
         'generos_id',
     ];
+
+    public function genero()
+    {
+        return $this->belongsTo(Genero::class);
+    }
 }

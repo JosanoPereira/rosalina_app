@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Passageiro extends Model
+class Motorista extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
         'pessoas_id',
-        'nif',
+        'numero_carta',
+        'data_emissao',
+        'data_validade',
+        'categoria',
+        'estado',
     ];
 
     public function pessoa()
@@ -20,8 +23,13 @@ class Passageiro extends Model
         return $this->belongsTo(Pessoa::class);
     }
 
-    public function user()
+    public function autocarro()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(Autocarro::class);
+    }
+
+    public function viagens()
+    {
+        return $this->hasMany(Viagen::class);
     }
 }
