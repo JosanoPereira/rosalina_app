@@ -251,7 +251,7 @@
                     $('#form_observacoes').val(row.observacoes)
                     $('#form_estado').val(row.estado)
 
-                    $('#pk_cursos').val(row.id).attr('disabled', false)
+
 
                     $('#modal_novo_autocarro form input').attr('readOnly', false)
                     $('#modal_novo_autocarro form select').attr('disabled', false)

@@ -25,7 +25,7 @@
                 </li>
                 <li class="pc-item {{request()->is('bilhetes*')? 'active' : null}}">
                     <a href="{{route('bilhetes.index')}}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-typography"></i></span>
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
                         <span class="pc-mtext">Bilhetes</span>
                     </a>
                 </li>
@@ -36,17 +36,39 @@
                 </li>
                 <li class="pc-item {{request()->is('rotas*')? 'active' : null}}">
                     <a href="{{route('rotas.index')}}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-typography"></i></span>
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
                         <span class="pc-mtext">Rotas</span>
                     </a>
                 </li>
                 <li class="pc-item {{request()->is('autocarros*')? 'active' : null}}">
                     <a href="{{route('autocarros.index')}}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-typography"></i></span>
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
                         <span class="pc-mtext">Autocarros</span>
                     </a>
                 </li>
+                <li class="pc-item {{request()->is('motoristas*')? 'active' : null}}">
+                    <a href="{{route('motoristas.index')}}" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+                        <span class="pc-mtext">Motoristas</span>
+                    </a>
+                </li>
+                <li class="pc-item {{request()->is('paradas*')? 'active' : null}}">
+                    <a href="{{route('paradas.index')}}" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+                        <span class="pc-mtext">Paradas</span>
+                    </a>
+                </li>
 
+                <li class="pc-item pc-caption">
+                    <label>Viagens:</label>
+                    <i class="ti ti-apps"></i>
+                </li>
+                <li class="pc-item {{request()->is('viagens*')? 'active' : null}}">
+                    <a href="{{route('viagens.index')}}" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+                        <span class="pc-mtext">Viagens</span>
+                    </a>
+                </li>
 
                 <li class="pc-item pc-caption">
                     <label>Acessos</label>

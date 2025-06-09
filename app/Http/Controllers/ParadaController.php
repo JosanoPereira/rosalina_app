@@ -12,7 +12,10 @@ class ParadaController extends Controller
      */
     public function index()
     {
-        //
+        $paradas = Parada::all();
+        return view('paradas.index', [
+            'paradas' => $paradas,
+        ]);
     }
 
     /**
@@ -28,7 +31,12 @@ class ParadaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dado = Parada::updateOrCreate(
+            ['id' => $request->id],
+            $request->except(['id'])
+        );
+
+        return redirect()->route('paradas.index')->with('success', 'Parada criada com sucesso!');
     }
 
     /**
@@ -36,7 +44,7 @@ class ParadaController extends Controller
      */
     public function show(Parada $parada)
     {
-        //
+        return response()->json($parada);
     }
 
     /**

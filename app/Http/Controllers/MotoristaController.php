@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genero;
 use App\Models\Motorista;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MotoristaController extends Controller
 {
@@ -12,7 +15,20 @@ class MotoristaController extends Controller
      */
     public function index()
     {
-        //
+        $motoristas = DB::table('motoristas')
+            ->join('pessoas', 'motoristas.pessoas_id', '=', 'pessoas.id')
+            ->select('*', 'motoristas.id as id', 'pessoas.id as pessoas_id')
+            ->get();
+        $motoristas->map(function ($motorista) {
+            $motorista->nome = $motorista->nome . ' ' . $motorista->apelido;
+            $motorista->categoria = ucfirst($motorista->categoria);
+            return $motorista;
+        });
+        $generos = Genero::all();
+        return view('motoristas.index', [
+            'motoristas' => $motoristas,
+            'generos' => $generos,
+        ]);
     }
 
     /**
@@ -20,7 +36,10 @@ class MotoristaController extends Controller
      */
     public function create()
     {
-        //
+        $generos = Genero::all();
+        return view('motoristas.index', [
+            'generos' => $generos,
+        ]);
     }
 
     /**
@@ -28,7 +47,23 @@ class MotoristaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $pessoa = Pessoa::updateOrCreate(
+                ['id' => $request->pessoas_id],
+                $request->only(['nome', 'apelido', 'bi', 'telefone', 'nascimento', 'generos_id'])
+            );
+            $request->merge(['pessoas_id' => $pessoa->id]);
+            $dado = Motorista::updateOrCreate(
+                ['id' => $request->id],
+                $request->except(['id',])
+            );
+            DB::commit();
+            return redirect()->route('motoristas.index')->with('success', 'Motorista criado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Erro ao criar motorista: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -36,7 +71,14 @@ class MotoristaController extends Controller
      */
     public function show(Motorista $motorista)
     {
-        //
+        $pessoa = Pessoa::find($motorista->pessoas_id);
+        $motorista['nome'] = $pessoa->nome;
+        $motorista['apelido'] = $pessoa->apelido;
+        $motorista['bi'] = $pessoa->bi;
+        $motorista['telefone'] = $pessoa->telefone;
+        $motorista['nascimento'] = $pessoa->nascimento;
+        $motorista['generos_id'] = $pessoa->generos_id;
+        return response()->json($motorista);
     }
 
     /**
