@@ -15,6 +15,8 @@ class Bilhete extends Model
         'preco',
         'classe',
         'numero_bilhete',
+        'activo',
+        'pago',
         'data_emissao',
         'data_validade',
     ];

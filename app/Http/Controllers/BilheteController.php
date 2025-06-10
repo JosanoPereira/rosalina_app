@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bilhete;
+use App\Models\Passageiro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BilheteController extends Controller
 {
@@ -12,9 +14,53 @@ class BilheteController extends Controller
      */
     public function index()
     {
-        $bilhetes = Bilhete::all();
+        if (!auth()->user()->hasRole('Admin') && !auth()->user()->hasRole('Passageiro')) {
+            return redirect()->back()->with('error', 'Acesso negado!');
+        }
+        elseif (auth()->user()->hasRole('Passageiro')){
+            $passageiro = Passageiro::all()->where('users_id', auth()->user()->id)->first();
+            if (!$passageiro) {
+                return redirect()->back()->with('error', 'Você não é um passageiro registrado!');
+            }
+            $bilhetes = DB::table('bilhetes')
+                ->join('viagens', 'bilhetes.viagens_id', 'viagens.id')
+                ->leftJoin('passageiros', 'bilhetes.passageiros_id', 'passageiros.id')
+                ->leftJoin('pessoas', 'passageiros.pessoas_id', 'pessoas.id')
+                ->join('rotas', 'viagens.rotas_id', 'rotas.id')
+                ->join('motoristas', 'viagens.motoristas_id', 'motoristas.id')
+                ->join('autocarros', 'viagens.autocarros_id', 'autocarros.id')
+                ->where('bilhetes.passageiros_id', $passageiro->id)
+                ->get([
+                    '*',
+                    'bilhetes.id as id',
+                ]);
+        }
+        else {
+            $bilhetes = DB::table('bilhetes')
+                ->join('viagens', 'bilhetes.viagens_id', 'viagens.id')
+                ->leftJoin('passageiros', 'bilhetes.passageiros_id', 'passageiros.id')
+                ->leftJoin('pessoas', 'passageiros.pessoas_id', 'pessoas.id')
+                ->join('rotas', 'viagens.rotas_id', 'rotas.id')
+                ->join('motoristas', 'viagens.motoristas_id', 'motoristas.id')
+                ->join('autocarros', 'viagens.autocarros_id', 'autocarros.id')
+                ->get([
+                    '*',
+                    'bilhetes.id as id',
+                ]);
+        }
+        $viagens = DB::table('viagens')
+            ->join('rotas', 'viagens.rotas_id', 'rotas.id')
+            ->join('motoristas', 'viagens.motoristas_id', 'motoristas.id')
+            ->join('pessoas', 'motoristas.pessoas_id', 'pessoas.id')
+            ->join('autocarros', 'viagens.autocarros_id', 'autocarros.id')
+            ->get([
+                '*',
+                'viagens.id as id',
+            ]);
+
         return view('bilhetes.index', [
             'bilhetes' => $bilhetes,
+            'viagens' => $viagens,
         ]);
     }
 
@@ -30,24 +76,29 @@ class BilheteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'numero_bilhete' => 'required|unique:bilhetes,numero_bilhete',
-            'data_emissao' => 'required|date',
-            'data_validade' => 'required|date|after:data_emissao',
-            'passageiros_id' => 'required|exists:passageiros,id',
-        ]);
+        try {
+            DB::beginTransaction();
+            if (auth()->user()->hasRole('Passageiro')) {
+                $passageiro = Passageiro::all()->where('users_id', auth()->user()->id)->first();
+                $request['passageiros_id'] = $passageiro->id;
+                $bilhete = Bilhete::updateOrCrete(
+                    ['id' => $request->id],
+                    $request->except(['id'])
+                );
+            } else {
+                $bilhete = Bilhete::updateOrCrete(
+                    ['id' => $request->id],
+                    $request->except(['id', 'passageiros_id'])
+                );
+            }
+            DB::commit();
+            return redirect()->route('bilhetes.index')->with('success', 'Bilhete criado com sucesso!');
+        }
+        catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Erro ao criar bilhete: ' . $e->getMessage());
+        }
 
-        Bilhete::updateOrCrete(
-            ['id' => $request->id],
-            [
-                'numero_bilhete' => $request->numero_bilhete,
-                'data_emissao' => $request->data_emissao,
-                'data_validade' => $request->data_validade,
-                'passageiros_id' => $request->passageiros_id
-            ]
-        );
-
-        return redirect()->route('bilhetes.index')->with('success', 'Bilhete criado com sucesso!');
     }
 
     /**
