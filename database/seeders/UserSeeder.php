@@ -16,13 +16,13 @@ class UserSeeder extends Seeder
         $dados = [
             [
                 'name' => 'admin',
-                'email' => 'josanopereira1999@hotmail.com',
+                'email' => 'admin@admin.com',
                 'password' => Hash::make('admin'),
                 'remember_token' => null,
             ],
             [
                 'name' => 'user',
-                'email' => 'user@gmail.com',
+                'email' => 'user@user.com',
                 'password' => bcrypt('user'),
                 'remember_token' => null,
             ],
