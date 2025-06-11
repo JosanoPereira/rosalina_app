@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                 User::create($dado);
             }
         }
-        $userRole = User::where('email', 'josanopereira1999@hotmail.com')->first();
+        $userRole = User::where('email', 'admin@admin.com')->first();
         if ($userRole) {
             $userRole->assignRole('Admin');
         }
