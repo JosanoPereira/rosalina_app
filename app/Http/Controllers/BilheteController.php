@@ -16,8 +16,7 @@ class BilheteController extends Controller
     {
         if (!auth()->user()->hasRole('Admin') && !auth()->user()->hasRole('Passageiro')) {
             return redirect()->back()->with('error', 'Acesso negado!');
-        }
-        elseif (auth()->user()->hasRole('Passageiro')){
+        } elseif (auth()->user()->hasRole('Passageiro')) {
             $passageiro = Passageiro::all()->where('users_id', auth()->user()->id)->first();
             if (!$passageiro) {
                 return redirect()->back()->with('error', 'Você não é um passageiro registrado!');
@@ -34,8 +33,7 @@ class BilheteController extends Controller
                     '*',
                     'bilhetes.id as id',
                 ]);
-        }
-        else {
+        } else {
             $bilhetes = DB::table('bilhetes')
                 ->join('viagens', 'bilhetes.viagens_id', 'viagens.id')
                 ->leftJoin('passageiros', 'bilhetes.passageiros_id', 'passageiros.id')
@@ -48,6 +46,16 @@ class BilheteController extends Controller
                     'bilhetes.id as id',
                 ]);
         }
+
+        $bilhetes->map(function ($bilhete) {
+            $bilhete->rota = $bilhete->origem . ' -> ' . $bilhete->destino;
+            $bilhete->nome = $bilhete->passageiros_id ? primeiro_ultimo($bilhete->nome . ' ' . $bilhete->apelido) : 'Cliente Final';
+            $bilhete->email = $bilhete->email ?? 'Não definido';
+            $bilhete->telefone = $bilhete->telefone ?? 'Não definido';
+            $bilhete->valor = formatar_moeda($bilhete->preco * $bilhete->qtd) ?? 0;
+            $bilhete->numero_bilhete = 'TK-' . $bilhete->numero_bilhete . '/' . data_formatada($bilhete->data_emissao, 'Y') ?? 'N/A';
+        });
+
         $viagens = DB::table('viagens')
             ->join('rotas', 'viagens.rotas_id', 'rotas.id')
             ->join('motoristas', 'viagens.motoristas_id', 'motoristas.id')
@@ -57,6 +65,10 @@ class BilheteController extends Controller
                 '*',
                 'viagens.id as id',
             ]);
+
+        $viagens->map(function ($viagen) {
+            $viagen->rota = $viagen->origem . ' -> ' . $viagen->destino;
+        });
 
         return view('bilhetes.index', [
             'bilhetes' => $bilhetes,
@@ -76,25 +88,29 @@ class BilheteController extends Controller
      */
     public function store(Request $request)
     {
+        $lastBilhete = Bilhete::orderBy('id', 'desc')->first();
+        $request['numero_bilhete'] = $lastBilhete ? $lastBilhete->numero_bilhete + 1 : 1;
+        $request['data_emissao'] = now();
+
+        if (auth()->user()->hasRole('Passageiro')) {
+            $passageiro = Passageiro::all()->where('users_id', auth()->user()->id)->first();
+            $request['passageiros_id'] = $passageiro->id;
+            $bilhete = Bilhete::updateOrCreate(
+                ['id' => $request->id],
+                $request->except(['id'])
+            );
+        } else {
+            $bilhete = Bilhete::updateOrCreate(
+                ['id' => $request->id],
+                $request->except(['id', 'passageiros_id'])
+            );
+        }
         try {
             DB::beginTransaction();
-            if (auth()->user()->hasRole('Passageiro')) {
-                $passageiro = Passageiro::all()->where('users_id', auth()->user()->id)->first();
-                $request['passageiros_id'] = $passageiro->id;
-                $bilhete = Bilhete::updateOrCrete(
-                    ['id' => $request->id],
-                    $request->except(['id'])
-                );
-            } else {
-                $bilhete = Bilhete::updateOrCrete(
-                    ['id' => $request->id],
-                    $request->except(['id', 'passageiros_id'])
-                );
-            }
+
             DB::commit();
             return redirect()->route('bilhetes.index')->with('success', 'Bilhete criado com sucesso!');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Erro ao criar bilhete: ' . $e->getMessage());
         }
@@ -104,9 +120,9 @@ class BilheteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bilhete $bihete)
+    public function show(Bilhete $bilhete)
     {
-        //
+        return response()->json($bilhete);
     }
 
     /**

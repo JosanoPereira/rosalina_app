@@ -12,7 +12,7 @@ class Bilhete extends Model
     protected $fillable = [
         'viagens_id',
         'passageiros_id',
-        'preco',
+        'qtd',
         'classe',
         'numero_bilhete',
         'activo',

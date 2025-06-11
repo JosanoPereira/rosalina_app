@@ -25,6 +25,7 @@
                                 <th>Autocarro</th>
                                 <th>Hora Partida</th>
                                 <th>Hora Chegada</th>
+                                <th>Valor</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -37,6 +38,7 @@
                                     <td>{{ $viagen->autocarro }}</td>
                                     <td>{{ $viagen->hora_partida }}</td>
                                     <td>{{ $viagen->hora_chegada }}</td>
+                                    <td>{{ $viagen->preco }}</td>
                                     <td>
                                         <a title="View" onclick="visualizar_viagen({{$viagen->id}})"
                                            class="btn btn-sm btn-info" href="#"> <i class="fas fa-eye"></i> </a>
@@ -65,14 +67,14 @@
                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Dados</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('viagens.store') }}" method="POST">
+                    <form action="{{ route('viagens.store') }}" method="POST" id="form_modal_viagens">
                         @csrf
                         <div class="modal-body">
 
                             <input type="hidden" class="form-control form-control-sm  text-dark" name="id"
                                    id="id">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="form_rotas_id"
                                                 aria-label="Floating label select example"
@@ -84,6 +86,16 @@
                                             @endforeach
                                         </select>
                                         <label for="form_rotas_id">Rota</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control form-control-sm dinheiro"
+                                               id="form_preco"
+                                               placeholder="Valor"
+                                               name="preco" value="{{ old('preco') }}"/>
+                                        <label for="form_preco">Valor</label>
                                     </div>
                                 </div>
                             </div>
@@ -162,6 +174,7 @@
                     $('#form_rotas_id').val(row.rotas_id)
                     $('#form_motoristas_id').val(row.motoristas_id)
                     $('#form_autocarros_id').val(row.autocarros_id)
+                    $('#form_preco').val(row.preco)
                     $('#form_hora_partida').val(row.hora_partida)
                     $('#form_hora_chegada').val(row.hora_chegada)
 
@@ -187,6 +200,7 @@
                     $('#form_rotas_id').val(row.rotas_id)
                     $('#form_motoristas_id').val(row.motoristas_id)
                     $('#form_autocarros_id').val(row.autocarros_id)
+                    $('#form_preco').val(row.preco)
                     $('#form_hora_partida').val(row.hora_partida)
                     $('#form_hora_chegada').val(row.hora_chegada)
 
@@ -215,7 +229,7 @@
                 $('#modal_novo_viagen .modal-header').css('backgroundColor', '#11CDEF')
                 $('#modal_novo_viagen .modal-title').html('Viagem (New)')
                 $('#modal_novo_viagen .modal-footer input').val('Salvar')
-                $('#modal_form_cursos').trigger('reset')
+                $('#form_modal_viagens').trigger('reset')
                 $('#modal_novo_viagen').modal('show')
             })
         });

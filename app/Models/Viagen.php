@@ -13,6 +13,7 @@ class Viagen extends Model
         'rotas_id',
         'motoristas_id',
         'autocarros_id',
+        'preco',
         'hora_partida',
         'hora_chegada',
     ];

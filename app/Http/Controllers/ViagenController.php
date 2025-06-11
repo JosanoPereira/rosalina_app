@@ -30,6 +30,7 @@ class ViagenController extends Controller
             $viagem->nome = $viagem->nome . ' ' . $viagem->apelido;
             $viagem->rota = $viagem->origem . ' - ' . $viagem->destino;
             $viagem->autocarro = $viagem->marca . ' - ' . $viagem->modelo;
+            $viagem->preco = formatar_moeda($viagem->preco);
             return $viagem;
         });
         $rotas = Rota::all();
@@ -66,6 +67,7 @@ class ViagenController extends Controller
     public function store(Request $request)
     {
         try {
+            $request['preco'] = getFloat2($request->preco);
             DB::beginTransaction();
             $dado = Viagen::updateOrCreate(
                 ['id' => $request->id],

@@ -19,6 +19,7 @@
                     </a>
                 </li>
 
+
                 <li class="pc-item pc-caption">
                     <label>Bilheteira:</label>
                     <i class="ti ti-apps"></i>
@@ -30,6 +31,7 @@
                     </a>
                 </li>
 
+                @role('Admin|Operador')
                 <li class="pc-item pc-caption">
                     <label>Trajectos</label>
                     <i class="ti ti-apps"></i>
@@ -69,7 +71,9 @@
                         <span class="pc-mtext">Viagens</span>
                     </a>
                 </li>
+                @endrole
 
+                @role('Admin|Operador')
                 <li class="pc-item pc-caption">
                     <label>Acessos</label>
                     <i class="ti ti-brand-chrome"></i>
@@ -87,6 +91,7 @@
                         <li class="pc-item"><a class="pc-link" href="#!">Grupos Permissões</a></li>
                     </ul>
                 </li>
+                @endrole
             </ul>
 
             <div class="w-100 text-center">
