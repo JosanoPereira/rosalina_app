@@ -74,7 +74,7 @@
                 @endrole
 
                 @role('Admin|Operador')
-                <li class="pc-item pc-caption">
+                {{--<li class="pc-item pc-caption">
                     <label>Acessos</label>
                     <i class="ti ti-brand-chrome"></i>
                 </li>
@@ -90,7 +90,7 @@
                         <li class="pc-item"><a class="pc-link" href="#!">Grupos Usuários</a></li>
                         <li class="pc-item"><a class="pc-link" href="#!">Grupos Permissões</a></li>
                     </ul>
-                </li>
+                </li>--}}
                 @endrole
             </ul>
 

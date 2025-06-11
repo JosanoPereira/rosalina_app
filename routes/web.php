@@ -20,10 +20,30 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard routes
     Route::get('/dashboard', function () {
-        return view('dashboards.index');
+        $viagens = \App\Models\Viagen::all()->count();
+        $bilhetes = \App\Models\Bilhete::all()->count();
+        $motoristas = \App\Models\Motorista::all()->count();
+        $autocarros = \App\Models\Autocarro::all()->count();
+        return view('dashboards.index', [
+            'viagens' => $viagens,
+            'bilhetes' => $bilhetes,
+            'motoristas' => $motoristas,
+            'autocarros' => $autocarros,
+        ]);
     })->name('dashboard.index');
     Route::get('/dashboard/passageiros', function () {
-        return view('dashboards.passageiros.index');
+        $passageiro = \App\Models\Passageiro::all()->where('users_id', auth()->id())->first();
+        $bilhetes = 0;
+        if ($passageiro){
+            $bilhetes = \App\Models\Bilhete::all()->where('passageiros_id', $passageiro->id)->count();
+        }
+        $viagensFeitas = \App\Models\Bilhete::all()->where('activo', 0)
+            ->where('passageiros_id', $passageiro->id)->count();
+        return view('dashboards.passageiros.index', [
+            'passageiro' => $passageiro,
+            'bilhetes' => $bilhetes,
+            'viagensFeitas' => $viagensFeitas,
+        ]);
     })->name('dashboard.passageiros');
 
     // Others routes
